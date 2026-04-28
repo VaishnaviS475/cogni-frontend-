@@ -891,7 +891,54 @@ export default function App() {
     localStorage.removeItem("cogni_user");
     setUser(null);
   };
+import React, { useState } from "react";
 
+function App() {
+
+  const [messages, setMessages] = useState([]);
+  const [userInput, setUserInput] = useState("");
+
+  // ✅ 👉 STEP 3: PASTE THIS HERE
+  const askAI = async (question) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        let response = "";
+
+        if (question.toLowerCase().includes("summary")) {
+          response = "📊 Summary: Q3 roadmap, auth issues, onboarding drop-offs.";
+        } 
+        else if (question.toLowerCase().includes("action")) {
+          response = "✅ Actions:\n• Finish mockups\n• Finalize roadmap\n• Assign engineers";
+        } 
+        else {
+          response = "🤖 AI Insight: Focus is on onboarding and auth improvements.";
+        }
+
+        resolve(response);
+      }, 700);
+    });
+  };
+
+  // 👇 Your existing function
+  const handleSend = async () => {
+    const reply = await askAI(userInput);
+
+    setMessages((prev) => [
+      ...prev,
+      { role: "user", content: userInput },
+      { role: "ai", content: reply }
+    ]);
+  };
+
+  // ⛔ DO NOT put code below this
+  return (
+    <div>
+      {/* your UI */}
+    </div>
+  );
+}
+
+export default App;
   return (
     <div style={styles.app}>
       {user ? <Dashboard user={user} onLogout={handleLogout} /> : <LoginPage onLogin={handleLogin} />}
